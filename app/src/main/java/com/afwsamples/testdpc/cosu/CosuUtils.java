@@ -33,7 +33,7 @@ import java.io.OutputStream;
 /**
  * Utility class for various operations necessary during COSU set up.
  */
-/* package */ class CosuUtils {
+/* package */ public class CosuUtils {
     public static final String TAG = "CosuSetup";
     public static final boolean DEBUG = false;
 
