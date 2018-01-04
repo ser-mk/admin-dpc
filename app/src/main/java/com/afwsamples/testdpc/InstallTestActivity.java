@@ -158,4 +158,11 @@ public class InstallTestActivity extends Activity {
             }
         }
     };
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(mInstallReceiver);
+        unregisterReceiver(mBroadcastReceiver);
+        super.onDestroy();
+    }
 }
