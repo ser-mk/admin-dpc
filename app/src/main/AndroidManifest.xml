@@ -40,15 +40,11 @@
         <activity
             android:name=".SetupManagementActivity"
             android:label="@string/setup_app_name"
-            android:taskAffinity=""></activity>
-
-        <activity android:name=".InstallTestActivity"
-            android:label="Test Activity"
-            android:taskAffinity=""></activity>
+            android:taskAffinity="" />
 
         <activity-alias
-            android:name=".InstallTestLaunchActivity"
-            android:targetActivity=".InstallTestActivity">
+            android:name=".SetupManagementLaunchActivity"
+            android:targetActivity=".SetupManagementActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -57,10 +53,14 @@
             </intent-filter>
         </activity-alias>
 
+        <activity
+            android:name=".InstallTestActivity"
+            android:label="Test Activity"
+            android:taskAffinity="" />
 
         <activity-alias
-            android:name=".SetupManagementLaunchActivity"
-            android:targetActivity=".SetupManagementActivity">
+            android:name=".InstallTestLaunchActivity"
+            android:targetActivity=".InstallTestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -157,7 +157,7 @@
         <service
             android:name=".policy.resetpassword.ResetPasswordService"
             android:directBootAware="true"
-            android:enabled="@bool/is_o_or_later"></service>
+            android:enabled="@bool/is_o_or_later" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -191,6 +191,16 @@
                 <action android:name="android.app.action.DEVICE_ADMIN_SERVICE" />
             </intent-filter>
         </service>
+
+        <receiver
+            android:name=".pi_extension.PackageReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="INSTALL_PACKAGE" />
+                <action android:name="REMOVE_PACKAGE" />
+            </intent-filter>
+        </receiver>
 
     </application>
 
