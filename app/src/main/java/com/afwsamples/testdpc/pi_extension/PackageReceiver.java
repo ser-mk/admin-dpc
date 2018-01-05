@@ -4,24 +4,16 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.IntentSender;
 import android.content.pm.PackageInstaller;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 import android.util.Log;
 
-import com.afwsamples.testdpc.PackageMonitorReceiver;
-import com.afwsamples.testdpc.R;
 import com.afwsamples.testdpc.cosu.CosuUtils;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 
 public class PackageReceiver extends BroadcastReceiver {
 
@@ -31,19 +23,24 @@ public class PackageReceiver extends BroadcastReceiver {
     static final String ACTION_REMOVE = "REMOVE_PACKAGE";
 
     String erorr = "";
+    private String addErorr(final String str){
+        erorr += str + " > ";
+        return erorr;
+    }
 
     @Override
     public void onReceive(Context context, Intent intent) {
         // TODO: This method is called when the BroadcastReceiver is receiving
         // an Intent broadcast.
         Log.v(TAG, "inent: " + intent.toString());
+        erorr = "";
         String action;
         try{
             action = intent.getAction();
             action.isEmpty();
         } catch (Exception e){
             action = "wrong action!";
-            Log.w(TAG, "action is not exist!");
+            addErorr(action);
         }
         Log.v(TAG, action);
 
@@ -53,7 +50,7 @@ public class PackageReceiver extends BroadcastReceiver {
             content.isEmpty();
         } catch (Exception e){
             content = "wrong content!";
-            Log.w(TAG, "content is not exist!");
+            addErorr(content);
         }
         Log.v(TAG, content);
 
@@ -63,38 +60,25 @@ public class PackageReceiver extends BroadcastReceiver {
             bytesArray.hashCode();
         } catch (Exception e){
             bytesArray = "wrong byte array !".getBytes();
+            addErorr(bytesArray.toString());
             Log.w(TAG, "attached data absent!");
         }
 
         Uri uri = Uri.EMPTY;
         try {
             uri =  Uri.parse(intent.getStringExtra(Intent.EXTRA_STREAM));
-            Log.v(TAG, "uri = " + uri);
-            //Log.v(TAG, "return " + readTextFromUri(context, uri));
         } catch (Exception e) {
-            e.printStackTrace();
-            uri = Uri.EMPTY;
+            addErorr("empty Uri");
         }
+        Log.v(TAG, "uri = " + uri);
+
 
         boolean success = packageAction(context, content, uri, action);
 
         if(success){ return; }
+
+        ClientSender.sendMessage(context, TAG + "error: ", erorr);
     }
-
-    private String readTextFromUri(Context context,Uri uri) throws IOException {
-        InputStream inputStream = context.getContentResolver().openInputStream(uri);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(
-                inputStream));
-        StringBuilder stringBuilder = new StringBuilder();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            stringBuilder.append(line);
-        }
-
-        return stringBuilder.toString();
-    }
-
-
 
     private boolean packageAction(Context context, final String content, final Uri uriFile, @NonNull final String action){
         if(action.equals(ACTION_INSTALL)){
@@ -103,7 +87,7 @@ public class PackageReceiver extends BroadcastReceiver {
             return removePackage(context,content);
         }
 
-        erorr = "undefined action!";
+        addErorr("undefined action!");
         Log.w(TAG, erorr);
 
         return false;
@@ -117,7 +101,7 @@ public class PackageReceiver extends BroadcastReceiver {
             CosuUtils.installPackage(context, in, null);
         } catch (IOException e) {
             e.printStackTrace();
-            erorr = e.toString();
+            addErorr(e.toString());
             return false;
         }
 
@@ -139,7 +123,7 @@ public class PackageReceiver extends BroadcastReceiver {
             packageInstaller.uninstall(packageName, nail.getIntentSender());
         } catch (Exception e){
             e.printStackTrace();
-            erorr = e.toString();
+            addErorr(e.toString());
             return false;
         }
         return true;

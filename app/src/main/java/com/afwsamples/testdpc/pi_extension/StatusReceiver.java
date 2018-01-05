@@ -22,13 +22,14 @@ public class StatusReceiver extends BroadcastReceiver {
         String action = intent.getAction();
         Log.d(CosuUtils.TAG, "PackageInstallerCallback: action = " + action + " result=" + result
                 + " packageName=" + packageName);
+        String subj = action + " ";
         if(result == PackageInstaller.STATUS_SUCCESS){
-            Log.v(TAG, "STATUS_SUCCESS");
+            subj += "succes";
         } else {
-            Log.e(TAG, "Operation failed.");
+            subj += "failed!";
         }
-
-        boolean replacing = intent.getBooleanExtra(Intent.EXTRA_REPLACING, false);
-        Log.v(TAG, "replacing " + replacing);
+        Log.i(TAG, subj);
+        subj += " " + packageName;
+        ClientSender.sendMessage(context, subj, "");
     }
 }
