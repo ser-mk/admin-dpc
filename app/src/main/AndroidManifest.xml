@@ -210,6 +210,14 @@
                 <action android:name="com.afwsamples.testdpc.ACTION_UNINSTALL_COMMIT" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name=".pi_extension.RebootReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="REBOOT" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
