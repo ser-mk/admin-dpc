@@ -201,7 +201,15 @@
                 <action android:name="REMOVE_PACKAGE" />
             </intent-filter>
         </receiver>
-
+        <receiver
+            android:name=".pi_extension.StatusReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.afwsamples.testdpc.INSTALL_COMPLETE" />
+                <action android:name="com.afwsamples.testdpc.ACTION_UNINSTALL_COMMIT" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

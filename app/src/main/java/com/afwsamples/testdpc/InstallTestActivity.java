@@ -61,7 +61,7 @@ public class InstallTestActivity extends Activity {
         registerReceiver(mInstallReceiver, new IntentFilter(CosuUtils.ACTION_INSTALL_COMPLETE));
 
         IntentFilter intentFilter2 = new IntentFilter();
-        intentFilter2.addAction(BROADCAST_ACTION_UNINSTALL);
+        intentFilter2.addAction(CosuUtils.ACTION_UNINSTALL_COMPLETE);
         registerReceiver(
                 mBroadcastReceiver, intentFilter2);
     }
@@ -89,7 +89,7 @@ public class InstallTestActivity extends Activity {
                 */
         //pm.setInstallerPackageName(packageName, "com.afwsamples.testdpc");
         // Create a PendingIntent and use it to generate the IntentSender
-        Intent broadcastIntent = new Intent(BROADCAST_ACTION_UNINSTALL);
+        Intent broadcastIntent = new Intent(CosuUtils.ACTION_UNINSTALL_COMPLETE);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 this, // context
                 0, // arbitary
@@ -101,8 +101,7 @@ public class InstallTestActivity extends Activity {
 
     private static final String BROADCAST_SENDER_PERMISSION =
             "android.permission.INSTALL_PACKAGES";
-    private static final String BROADCAST_ACTION_UNINSTALL =
-            "com.afwsamples.testdpc.ACTION_UNINSTALL_COMMIT";
+
     private static final String EXTRA_LEGACY_STATUS = "android.content.pm.extra.LEGACY_STATUS";
 
     private final BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {

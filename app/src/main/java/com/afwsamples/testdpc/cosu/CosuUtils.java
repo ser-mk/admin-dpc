@@ -45,6 +45,8 @@ import java.io.OutputStream;
 
     public static final String ACTION_INSTALL_COMPLETE
             = "com.afwsamples.testdpc.INSTALL_COMPLETE";
+    public static final String ACTION_UNINSTALL_COMPLETE =
+            "com.afwsamples.testdpc.ACTION_UNINSTALL_COMMIT";
 
     public static Long startDownload(DownloadManager dm, Handler handler, String location) {
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(location));
