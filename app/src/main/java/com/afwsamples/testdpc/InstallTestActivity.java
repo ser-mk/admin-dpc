@@ -48,22 +48,6 @@ public class InstallTestActivity extends Activity {
             e.printStackTrace();
         }
 
-        boolean hasInstallPermission =
-                getPackageManager().checkPermission(Manifest.permission.INSTALL_PACKAGES, getPackageName())
-                        == PackageManager.PERMISSION_GRANTED;
-        Log.v(TAG, "hasInstallPermission = " + hasInstallPermission);
-
-        boolean hasDeletePermission =
-                getPackageManager().checkPermission(Manifest.permission.DELETE_PACKAGES, getPackageName())
-                        == PackageManager.PERMISSION_GRANTED;
-        Log.v(TAG, "hasDeletePermission = " + hasDeletePermission);
-
-        registerReceiver(mInstallReceiver, new IntentFilter(CosuUtils.ACTION_INSTALL_COMPLETE));
-
-        IntentFilter intentFilter2 = new IntentFilter();
-        intentFilter2.addAction(CosuUtils.ACTION_UNINSTALL_COMPLETE);
-        registerReceiver(
-                mBroadcastReceiver, intentFilter2);
     }
 
     static boolean uninstallDo = true;;
