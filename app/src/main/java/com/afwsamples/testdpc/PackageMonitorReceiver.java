@@ -7,8 +7,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.afwsamples.testdpc.common.NotificationUtil;
+import com.afwsamples.testdpc.pi_extension.ClientSender;
 
 public class PackageMonitorReceiver extends BroadcastReceiver {
     private static final String TAG = "PackageMonitorReceiver";
@@ -41,6 +43,8 @@ public class PackageMonitorReceiver extends BroadcastReceiver {
         NotificationManager notificationManager =
             (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(PACKAGE_CHANGED_NOTIIFICATION_ID, notification);
+
+        ClientSender.sendMessage(context, TAG, packageName + " " + notificationBody);
     }
 
     private String getPackageNameFromIntent(Intent intent) {
