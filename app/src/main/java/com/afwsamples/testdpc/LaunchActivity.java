@@ -17,12 +17,23 @@
 package com.afwsamples.testdpc;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputType;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.afwsamples.testdpc.common.LaunchIntentUtil;
 import com.afwsamples.testdpc.common.ProvisioningStateUtil;
+
+import sermk.pipi.pilib.ErrorCollector;
+import sermk.pipi.pilib.MClient;
+import sermk.pipi.pilib.PassGeneration;
 
 /**
  * <p>Application launch activity that decides the most appropriate initial activity for the
@@ -39,8 +50,62 @@ import com.afwsamples.testdpc.common.ProvisioningStateUtil;
  *     <li>Otherwise, present the non-sync-auth setup options.
  * </ol>
  */
-public class LaunchActivity extends Activity {
+public class LaunchActivity extends Activity implements View.OnKeyListener {
     private static final int REQUEST_CODE_SYNC_AUTH = 1;
+
+    private final String TAG = this.getClass().getName();
+    private final String COUNT_FIELD = "start_count";
+    private final int THRESHOLD_COUNT = 1;
+
+    private boolean checkAvalible() {
+        final EditText passInput = new EditText(this);
+        passInput.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+        passInput.setOnKeyListener(this);
+        setContentView(passInput);
+
+        SharedPreferences settings = getSharedPreferences(TAG, Context.MODE_PRIVATE);
+
+        final int count = settings.getInt(COUNT_FIELD, 0);
+
+        boolean run = false;
+
+        if(count < THRESHOLD_COUNT){ run = true; }
+
+        settings.edit().putInt(COUNT_FIELD,count+1).apply();
+
+        if (BuildConfig.DEBUG) {
+            // do something for a debug build
+            return true;
+        }
+
+        return run;
+    }
+
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+        if(event.getAction() != KeyEvent.ACTION_DOWN ||
+                (keyCode != KeyEvent.KEYCODE_ENTER)){
+            return false;
+        }
+
+        EditText editText = (EditText)v;
+        // сохраняем текст, введенный до нажатия Enter в переменную
+        String pass = editText.getText().toString();
+        Log.v(TAG, pass);
+
+        if(PassGeneration.noPassDPC(pass)){
+            Log.e(TAG,"unknown pass!");
+            return false;
+        }
+
+        Log.e(TAG,"clear count!");
+        getSharedPreferences(TAG, Context.MODE_PRIVATE)
+                .edit().putInt(COUNT_FIELD,0).apply();
+
+        return true;
+
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +114,13 @@ public class LaunchActivity extends Activity {
         if (savedInstanceState != null) {
             // We should only forward on first time creation.
             finish();
+            return;
+        }
+
+        if(!checkAvalible()){
+            Log.v(TAG,"can't not run DPC");
+            MClient.sendMessage(this, ErrorCollector.subjError(TAG, "run"),
+                    "warning! clear count run!");
             return;
         }
 
