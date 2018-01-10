@@ -8,6 +8,8 @@ import android.util.Log;
 
 import com.afwsamples.testdpc.cosu.CosuUtils;
 
+import sermk.pipi.pilib.MClient;
+
 public class StatusReceiver extends BroadcastReceiver {
 
     final String TAG = this.getClass().getName();
@@ -22,14 +24,13 @@ public class StatusReceiver extends BroadcastReceiver {
         String action = intent.getAction();
         Log.d(CosuUtils.TAG, "PackageInstallerCallback: action = " + action + " result=" + result
                 + " packageName=" + packageName);
-        String subj = action + " ";
+        String ret = "failed!";
         if(result == PackageInstaller.STATUS_SUCCESS){
-            subj += "succes";
-        } else {
-            subj += "failed!";
+            ret = "succes";
         }
+
+        final String subj = action + " " + ret + " " + packageName;
         Log.i(TAG, subj);
-        subj += " " + packageName;
-        ClientSender.sendMessage(context, subj, "");
+        MClient.sendMessage(context, subj, ret);
     }
 }

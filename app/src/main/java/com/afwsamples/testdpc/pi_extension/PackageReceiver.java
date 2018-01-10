@@ -15,42 +15,37 @@ import com.afwsamples.testdpc.cosu.CosuUtils;
 import java.io.IOException;
 import java.io.InputStream;
 
+import sermk.pipi.pilib.CommandCollection;
+import sermk.pipi.pilib.ErrorCollector;
+import sermk.pipi.pilib.MClient;
+
 public class PackageReceiver extends BroadcastReceiver {
 
     final String TAG = this.getClass().getName();
 
-    static final String ACTION_INSTALL = "INSTALL_PACKAGE";
-    static final String ACTION_REMOVE = "REMOVE_PACKAGE";
-
-    String erorr = "";
-    private String addErorr(final String str){
-        erorr += str + " > ";
-        return erorr;
-    }
+    private final ErrorCollector EC = new ErrorCollector();
 
     @Override
     public void onReceive(Context context, Intent intent) {
         // TODO: This method is called when the BroadcastReceiver is receiving
         // an Intent broadcast.
         Log.v(TAG, "inent: " + intent.toString());
-        erorr = "";
+        EC.clear();
         String action;
         try{
-            action = intent.getAction();
-            action.isEmpty();
+            action = intent.getAction().trim();
         } catch (Exception e){
             action = "wrong action!";
-            addErorr(action);
+            EC.addError(action);
         }
         Log.v(TAG, action);
 
         String content;
         try{
-            content = intent.getStringExtra(Intent.EXTRA_TEXT);
-            content.isEmpty();
+            content = intent.getStringExtra(Intent.EXTRA_TEXT).trim();
         } catch (Exception e){
             content = "wrong content!";
-            addErorr(content);
+            EC.addError(content);
         }
         Log.v(TAG, content);
 
@@ -60,7 +55,7 @@ public class PackageReceiver extends BroadcastReceiver {
             bytesArray.hashCode();
         } catch (Exception e){
             bytesArray = "wrong byte array !".getBytes();
-            addErorr(bytesArray.toString());
+            EC.addError(bytesArray.toString());
             Log.w(TAG, "attached data absent!");
         }
 
@@ -68,7 +63,7 @@ public class PackageReceiver extends BroadcastReceiver {
         try {
             uri =  Uri.parse(intent.getStringExtra(Intent.EXTRA_STREAM));
         } catch (Exception e) {
-            addErorr("empty Uri");
+            EC.addError("empty Uri");
         }
         Log.v(TAG, "uri = " + uri);
 
@@ -77,18 +72,19 @@ public class PackageReceiver extends BroadcastReceiver {
 
         if(success){ return; }
 
-        ClientSender.sendMessage(context, TAG + "error: ", erorr);
+        MClient.sendMessage(context,
+                ErrorCollector.subjError(TAG,action),
+                EC.error);
     }
 
     private boolean packageAction(Context context, final String content, final Uri uriFile, @NonNull final String action){
-        if(action.equals(ACTION_INSTALL)){
+        if(action.equals(CommandCollection.ACTION_RECIVER_INSTALL_PACKAGE)){
            return installPackage(context, uriFile);
-        } else if (action.equals(ACTION_REMOVE)){
+        } else if (action.equals(CommandCollection.ACTION_RECIVER_REMOVE_PACKAGE)){
             return removePackage(context,content);
         }
 
-        addErorr("undefined action!");
-        Log.w(TAG, erorr);
+        Log.w(TAG, EC.addError("undefined action!"));
 
         return false;
     }
@@ -101,7 +97,7 @@ public class PackageReceiver extends BroadcastReceiver {
             CosuUtils.installPackage(context, in, null);
         } catch (IOException e) {
             e.printStackTrace();
-            addErorr(e.toString());
+            EC.addError(ErrorCollector.getStackTraceString(e));
             return false;
         }
 
@@ -123,7 +119,7 @@ public class PackageReceiver extends BroadcastReceiver {
             packageInstaller.uninstall(packageName, nail.getIntentSender());
         } catch (Exception e){
             e.printStackTrace();
-            addErorr(e.toString());
+            EC.addError(e.toString());
             return false;
         }
         return true;
