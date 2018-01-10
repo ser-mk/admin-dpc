@@ -1,2 +1,3 @@
-include ':TestDPC'
+include ':TestDPC', ':PiLib'
 project(':TestDPC').projectDir = new File(rootDir, "app")
+project(':PiLib').projectDir = new File('EXT/PiLib')

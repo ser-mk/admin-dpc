@@ -23,3 +23,13 @@ allprojects {
         }
     }
 }
+
+
+ext {
+    supportLibVersion = '25.4.0'  // variable that can be referenced to keep support libs consistent
+    versionBuildTool = '27.0.1'
+    versionCompiler = 27
+    versionTarget = 27
+    versionMinSdkTarget = 21
+    versionNameString = '1.0.0'
+}
