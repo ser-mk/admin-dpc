@@ -64,7 +64,7 @@ dependencies {
     api 'com.android.support:preference-v14:27.0.2'
     api 'com.android.support:recyclerview-v7:27.0.2'
     api 'com.android.support:support-v13:27.0.2'
-    api 'com.google.android.gms:play-services-safetynet:+'
+    api 'com.google.android.gms:play-services-safetynet:11.8.0'
     api(name: 'setup-wizard-lib-platform-release', ext: 'aar')
     implementation project(':PiLib')
 }
