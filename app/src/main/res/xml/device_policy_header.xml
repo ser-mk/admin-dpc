@@ -17,38 +17,32 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:testdpc="http://schemas.android.com/apk/res/com.afwsamples.testdpc">
 
-    <com.afwsamples.testdpc.common.preference.DpcPreference
-        android:key="app_status"
-        android:selectable="false"
-        testdpc:admin="any"
-        testdpc:minSdkVersion="L" />
-    <com.afwsamples.testdpc.common.preference.DpcPreference
-        android:key="security_patch"
-        android:selectable="false"
-        android:title="@string/security_patch"
-        testdpc:admin="any"
-        testdpc:minSdkVersion="M" />
-
-    <PreferenceCategory android:title="@string/accessibility_title">
+    <PreferenceCategory android:title="@string/single_use_devices">
         <com.afwsamples.testdpc.common.preference.DpcPreference
-            android:key="set_accessibility_services"
-            android:title="@string/set_accessibility_services"
-            testdpc:minSdkVersion="L" />
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/account_management_title">
+            android:key="disable_status_bar"
+            android:title="@string/disable_status_bar"
+            testdpc:user="primaryUser"
+            testdpc:minSdkVersion="M" />
         <com.afwsamples.testdpc.common.preference.DpcPreference
-            android:key="set_disable_account_management"
-            android:title="@string/set_disable_account_management"
-            testdpc:minSdkVersion="L" />
+            android:key="reenable_status_bar"
+            android:title="@string/reenable_status_bar"
+            testdpc:user="primaryUser"
+            testdpc:minSdkVersion="M" />
         <com.afwsamples.testdpc.common.preference.DpcPreference
-            android:key="get_disable_account_management"
-            android:title="@string/get_disable_account_management"
-            testdpc:minSdkVersion="L" />
+            android:key="disable_keyguard"
+            android:title="@string/disable_keyguard"
+            testdpc:user="primaryUser"
+            testdpc:minSdkVersion="M" />
         <com.afwsamples.testdpc.common.preference.DpcPreference
-            android:key="add_account"
-            android:title="@string/add_account"
-            testdpc:minSdkVersion="L" />
+            android:key="reenable_keyguard"
+            android:title="@string/reenable_keyguard"
+            testdpc:user="primaryUser"
+            testdpc:minSdkVersion="M" />
+        <com.afwsamples.testdpc.common.preference.DpcPreference
+            android:key="start_kiosk_mode"
+            android:title="@string/start_kiosk_mode"
+            testdpc:admin="deviceOwner"
+            testdpc:minSdkVersion="M" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/apps_management_title">
@@ -83,6 +77,40 @@
         <com.afwsamples.testdpc.common.preference.DpcPreference
             android:key="manage_app_restrictions"
             android:title="@string/manage_app_restrictions"
+            testdpc:minSdkVersion="L" />
+    </PreferenceCategory>
+
+    <com.afwsamples.testdpc.common.preference.DpcPreference
+        android:key="app_status"
+        android:selectable="false"
+        testdpc:admin="any"
+        testdpc:minSdkVersion="L" />
+    <com.afwsamples.testdpc.common.preference.DpcPreference
+        android:key="security_patch"
+        android:selectable="false"
+        android:title="@string/security_patch"
+        testdpc:admin="any"
+        testdpc:minSdkVersion="M" />
+
+    <PreferenceCategory android:title="@string/accessibility_title">
+        <com.afwsamples.testdpc.common.preference.DpcPreference
+            android:key="set_accessibility_services"
+            android:title="@string/set_accessibility_services"
+            testdpc:minSdkVersion="L" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/account_management_title">
+        <com.afwsamples.testdpc.common.preference.DpcPreference
+            android:key="set_disable_account_management"
+            android:title="@string/set_disable_account_management"
+            testdpc:minSdkVersion="L" />
+        <com.afwsamples.testdpc.common.preference.DpcPreference
+            android:key="get_disable_account_management"
+            android:title="@string/get_disable_account_management"
+            testdpc:minSdkVersion="L" />
+        <com.afwsamples.testdpc.common.preference.DpcPreference
+            android:key="add_account"
+            android:title="@string/add_account"
             testdpc:minSdkVersion="L" />
     </PreferenceCategory>
 
@@ -322,34 +350,6 @@
         <com.afwsamples.testdpc.common.preference.DpcPreference
             android:key="manage_app_permissions"
             android:title="@string/manage_app_permissions"
-            testdpc:minSdkVersion="M" />
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/single_use_devices">
-        <com.afwsamples.testdpc.common.preference.DpcPreference
-            android:key="disable_status_bar"
-            android:title="@string/disable_status_bar"
-            testdpc:user="primaryUser"
-            testdpc:minSdkVersion="M" />
-        <com.afwsamples.testdpc.common.preference.DpcPreference
-            android:key="reenable_status_bar"
-            android:title="@string/reenable_status_bar"
-            testdpc:user="primaryUser"
-            testdpc:minSdkVersion="M" />
-        <com.afwsamples.testdpc.common.preference.DpcPreference
-            android:key="disable_keyguard"
-            android:title="@string/disable_keyguard"
-            testdpc:user="primaryUser"
-            testdpc:minSdkVersion="M" />
-        <com.afwsamples.testdpc.common.preference.DpcPreference
-            android:key="reenable_keyguard"
-            android:title="@string/reenable_keyguard"
-            testdpc:user="primaryUser"
-            testdpc:minSdkVersion="M" />
-        <com.afwsamples.testdpc.common.preference.DpcPreference
-            android:key="start_kiosk_mode"
-            android:title="@string/start_kiosk_mode"
-            testdpc:admin="deviceOwner"
             testdpc:minSdkVersion="M" />
     </PreferenceCategory>
 
