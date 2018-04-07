@@ -18,6 +18,7 @@ import java.io.InputStream;
 import sermk.pipi.pilib.CommandCollection;
 import sermk.pipi.pilib.ErrorCollector;
 import sermk.pipi.pilib.MClient;
+import sermk.pipi.pilib.UniversalReciver;
 
 public class PackageReceiver extends BroadcastReceiver {
 
@@ -29,51 +30,17 @@ public class PackageReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         // TODO: This method is called when the BroadcastReceiver is receiving
         // an Intent broadcast.
-        Log.v(TAG, "inent: " + intent.toString());
         EC.clear();
-        String action;
-        try{
-            action = intent.getAction().trim();
-        } catch (Exception e){
-            action = "wrong action!";
-            EC.addError(action);
-        }
-        Log.v(TAG, action);
 
-        String content;
-        try{
-            content = intent.getStringExtra(Intent.EXTRA_TEXT).trim();
-        } catch (Exception e){
-            content = "wrong content!";
-            EC.addError(content);
-        }
-        Log.v(TAG, content);
+        final UniversalReciver.ReciverVarible rv
+                = UniversalReciver.parseIntent(intent, TAG);
 
-        byte[] bytesArray;
-        try{
-            bytesArray = intent.getByteArrayExtra(Intent.EXTRA_INITIAL_INTENTS);
-            bytesArray.hashCode();
-        } catch (Exception e){
-            bytesArray = "wrong byte array !".getBytes();
-            EC.addError(bytesArray.toString());
-            Log.w(TAG, "attached data absent!");
-        }
-
-        Uri uri = Uri.EMPTY;
-        try {
-            uri =  Uri.parse(intent.getStringExtra(Intent.EXTRA_STREAM));
-        } catch (Exception e) {
-            EC.addError("empty Uri");
-        }
-        Log.v(TAG, "uri = " + uri);
-
-
-        boolean success = packageAction(context, content, uri, action);
+        boolean success = packageAction(context, rv.content, rv.uri, rv.action);
 
         if(success){ return; }
 
         MClient.sendMessage(context,
-                ErrorCollector.subjError(TAG,action),
+                ErrorCollector.subjError(TAG,rv.action),
                 EC.error);
     }
 
