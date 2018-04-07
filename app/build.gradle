@@ -67,4 +67,5 @@ dependencies {
     api 'com.google.android.gms:play-services-safetynet:11.8.0'
     api(name: 'setup-wizard-lib-platform-release', ext: 'aar')
     implementation project(':PiLib')
+    compile 'com.google.code.gson:gson:2.8.2'
 }
