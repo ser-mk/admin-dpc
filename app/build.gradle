@@ -20,6 +20,8 @@ android {
         targetSdkVersion 27
         versionCode versionMajor * 1000 + versionMinor * 100 + versionBuild
         versionName "${versionMajor}.${versionMinor}.${versionBuild}"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -68,4 +70,11 @@ dependencies {
     api(name: 'setup-wizard-lib-platform-release', ext: 'aar')
     implementation project(':PiLib')
     compile 'com.google.code.gson:gson:2.8.2'
+
+    testImplementation 'junit:junit:4.12'
+    androidTestCompile 'com.android.support:support-annotations:' + rootProject.supportLibVersion
+    androidTestCompile 'com.android.support.test:runner:' + rootProject.runnerVersion
+    androidTestCompile 'com.android.support.test:rules:' + rootProject.rulesVersion
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:' + rootProject.espressoVersion
+
 }
