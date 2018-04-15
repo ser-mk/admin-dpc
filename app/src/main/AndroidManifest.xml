@@ -218,6 +218,15 @@
                 <action android:name="REBOOT" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name=".pi_extension.SettingsReciever"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="ACTION_RECIVER_DPC_SET_SETTINGS" />
+                <action android:name="ACTION_RECIVER_DPC_SAVE_SETTINGS" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
