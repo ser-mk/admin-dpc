@@ -47,6 +47,7 @@
 
         <activity-alias
             android:name=".SetupManagementLaunchActivity"
+            android:enabled="false"
             android:targetActivity=".SetupManagementActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -63,6 +64,7 @@
 
         <activity-alias
             android:name=".InstallTestLaunchActivity"
+            android:enabled="false"
             android:targetActivity=".InstallTestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
