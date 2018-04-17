@@ -31,6 +31,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -119,22 +120,8 @@ public class KioskModeActivity extends Activity {
 
         // remove TestDPC package and add to end of list; it will act as back door
         mKioskPackages.remove(getPackageName());
-        mKioskPackages.add(getPackageName());
 
-        // create list view with all kiosk packages
-        final KioskAppsArrayAdapter kioskAppsArrayAdapter = new KioskAppsArrayAdapter(this,
-                R.id.pkg_name, mKioskPackages);
-        ListView listView = new ListView(this);
-        listView.setAdapter(kioskAppsArrayAdapter);
-        listView.setOnItemClickListener(
-                new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position,
-                                            long id) {
-                        kioskAppsArrayAdapter.onItemClick(parent, view, position, id);
-                    }
-                });
-        setContentView(listView);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT);
     }
 
     @Override
