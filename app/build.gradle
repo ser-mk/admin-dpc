@@ -76,5 +76,5 @@ dependencies {
     androidTestCompile 'com.android.support.test:runner:' + rootProject.runnerVersion
     androidTestCompile 'com.android.support.test:rules:' + rootProject.rulesVersion
     androidTestCompile 'com.android.support.test.espresso:espresso-core:' + rootProject.espressoVersion
-
+    androidTestCompile 'org.awaitility:awaitility:3.1.0'
 }
