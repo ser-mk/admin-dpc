@@ -17,9 +17,11 @@
 package com.afwsamples.testdpc;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -30,6 +32,8 @@ import android.widget.Toast;
 
 import com.afwsamples.testdpc.common.LaunchIntentUtil;
 import com.afwsamples.testdpc.common.ProvisioningStateUtil;
+import com.afwsamples.testdpc.pi_extension.DPCSettings;
+import com.afwsamples.testdpc.policy.locktask.KioskModeActivity;
 
 import sermk.pipi.pilib.ErrorCollector;
 import sermk.pipi.pilib.MClient;
@@ -116,14 +120,16 @@ public class LaunchActivity extends Activity implements View.OnKeyListener {
             finish();
             return;
         }
-
+/*
         if(!checkAvalible()){
             Log.v(TAG,"can't not run DPC");
             MClient.sendMessage(this, ErrorCollector.subjError(TAG, "run"),
                     "warning! clear count run!");
             return;
         }
-
+*/
+        startKioskMode();
+/*
         if (ProvisioningStateUtil.isManaged(this)
                 && !ProvisioningStateUtil.isManagedByTestDPC(this)) {
             // Device or profile owner is a different app to TestDPC - abort.
@@ -147,7 +153,33 @@ public class LaunchActivity extends Activity implements View.OnKeyListener {
             Intent intent = new Intent(this, PolicyManagementActivity.class);
             startActivity(intent);
             finish();
+        }*/
+    }
+
+    private void startKioskMode() {
+
+        if(!ProvisioningStateUtil.isManagedByTestDPC(this)){
+            Toast.makeText(this, getString(R.string.other_owner_already_setup_error),
+                    Toast.LENGTH_LONG).show();
+            setResult(RESULT_CANCELED);
+            finish();
         }
+
+        // start locked activity
+        final String[] lockTaskArray = new String[1];
+        lockTaskArray[0] = DPCSettings.getSettings(this).LAUNCHER_APP;
+
+        Intent launchIntent = new Intent(this, KioskModeActivity.class);
+        launchIntent.putExtra(KioskModeActivity.LOCKED_APP_PACKAGE_LIST, lockTaskArray);
+        launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        final PackageManager mPackageManager = getPackageManager();
+        final String mPackageName = getPackageName();
+        mPackageManager.setComponentEnabledSetting(
+                new ComponentName(mPackageName, KioskModeActivity.class.getName()),
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                PackageManager.DONT_KILL_APP);
+        startActivity(launchIntent);
+        finish();
     }
 
     @Override
