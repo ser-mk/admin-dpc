@@ -48,8 +48,11 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.afwsamples.testdpc.BuildConfig;
 import com.afwsamples.testdpc.DeviceAdminReceiver;
 import com.afwsamples.testdpc.R;
+import com.afwsamples.testdpc.pi_extension.restrictions.RestrictionForSystem;
+import com.afwsamples.testdpc.pi_extension.restrictions.RestrictionsForPackage;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -82,8 +85,7 @@ public class KioskModeActivity extends Activity {
             DISALLOW_SAFE_BOOT,
             DISALLOW_FACTORY_RESET,
             DISALLOW_ADD_USER,
-            DISALLOW_MOUNT_PHYSICAL_MEDIA,
-            DISALLOW_ADJUST_VOLUME };
+            DISALLOW_MOUNT_PHYSICAL_MEDIA };
 
     private ComponentName mAdminComponentName;
     private ArrayList<String> mKioskPackages;
@@ -142,6 +144,13 @@ public class KioskModeActivity extends Activity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        PackageManager pm = getPackageManager();
+        startActivity(pm.getLaunchIntentForPackage(mKioskPackages.get(0)));
+    }
+
     public void onBackdoorClicked() {
         stopLockTask();
         setDefaultKioskPolicies(false);
@@ -160,15 +169,20 @@ public class KioskModeActivity extends Activity {
         }
     }
 
+    private void setCustomRestriction(){
+
+        RestrictionForSystem.init(this);
+        if (!BuildConfig.DEBUG){
+            RestrictionForSystem.setUserRestriction(this);
+        }
+        RestrictionsForPackage.init(this);
+    }
+
     private void setDefaultKioskPolicies(boolean active) {
         // restore or save previous configuration
         if (active) {
             saveCurrentConfiguration();
-            setUserRestriction(DISALLOW_SAFE_BOOT, active);
-            setUserRestriction(DISALLOW_FACTORY_RESET, active);
-            setUserRestriction(DISALLOW_ADD_USER, active);
-            setUserRestriction(DISALLOW_MOUNT_PHYSICAL_MEDIA, active);
-            setUserRestriction(DISALLOW_ADJUST_VOLUME, active);
+            setCustomRestriction();
         } else {
             restorePreviousConfiguration();
         }
