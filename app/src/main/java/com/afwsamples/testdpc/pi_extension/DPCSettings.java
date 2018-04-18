@@ -44,12 +44,6 @@ public class DPCSettings {
 
         final String json = PiUtils.getJsonFromShared(context);
 
-        if(json.isEmpty()){
-            Log.v(TAG,"JSON settings not found!");
-            settings = new Settings();
-            return settings;
-        }
-
         final Settings temp = new Gson().fromJson(json, Settings.class);
         if(temp == null){
             Log.v(TAG,"settings broken!");
