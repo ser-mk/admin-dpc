@@ -533,7 +533,6 @@ public class PolicyManagementFragment extends BaseSearchablePolicyPreferenceFrag
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().getActionBar().setTitle(R.string.policies_management);
 
         // The settings might get changed outside the device policy app,
         // so, we need to make sure the preference gets updated accordingly.
