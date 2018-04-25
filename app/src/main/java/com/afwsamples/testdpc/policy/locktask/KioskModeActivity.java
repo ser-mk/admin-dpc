@@ -47,16 +47,20 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afwsamples.testdpc.BuildConfig;
 import com.afwsamples.testdpc.DeviceAdminReceiver;
 import com.afwsamples.testdpc.R;
+import com.afwsamples.testdpc.pi_extension.DPCSettings;
 import com.afwsamples.testdpc.pi_extension.restrictions.RestrictionForSystem;
 import com.afwsamples.testdpc.pi_extension.restrictions.RestrictionsForPackage;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+
+import sermk.pipi.pilib.AppRunner;
 
 /**
  * Shows the list of apps passed in the {@link #LOCKED_APP_PACKAGE_LIST} extra (or previously saved
@@ -148,7 +152,13 @@ public class KioskModeActivity extends Activity {
     protected void onResume() {
         super.onResume();
         PackageManager pm = getPackageManager();
-        startActivity(pm.getLaunchIntentForPackage(mKioskPackages.get(0)));
+
+        final String packageName = DPCSettings.getSettings(this).START_PACKAGE_NAME;
+        final String activityName = DPCSettings.getSettings(this).START_ACTIVITY_NAME;
+
+        if (!AppRunner.run(this,packageName, activityName)){
+            Toast.makeText(this, "not found launcher", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void onBackdoorClicked() {
