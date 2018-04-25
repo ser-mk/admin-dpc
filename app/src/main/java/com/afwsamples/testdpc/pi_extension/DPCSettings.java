@@ -45,8 +45,8 @@ public class DPCSettings {
         final String json = PiUtils.getJsonFromShared(context);
 
         final Settings temp = new Gson().fromJson(json, Settings.class);
-        if(temp == null){
-            Log.v(TAG,"settings broken!");
+        if(PiUtils.checkHasNullPublicField(temp, Settings.class)){
+            Log.v(TAG,"saved settings broken!");
             settings = new Settings();
             return settings;
         }
