@@ -18,7 +18,8 @@ public class DPCSettings {
         public final String[] HIDE_LIST_PACKAGE_NAME = EMPTY_ARRAY_STRING;
         public final String[] REMOVE_LIST_PACKAGE_NAME = EMPTY_ARRAY_STRING;
         public final String[] EXTERNAL_WHITE_PERMISSION_LIST_APPS = EMPTY_ARRAY_STRING;
-        public final String LAUNCHER_APP = "sermk.pipi.pilauncher";
+        public final String START_PACKAGE_NAME = "sermk.pipi.pilauncher";
+        public final String START_ACTIVITY_NAME = "sermk.pipi.pilauncher.LauncherAct";
     }
 
     static final String TAG = "DPCSettings";
