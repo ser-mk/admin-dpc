@@ -35,8 +35,6 @@ import com.afwsamples.testdpc.common.ProvisioningStateUtil;
 import com.afwsamples.testdpc.pi_extension.DPCSettings;
 import com.afwsamples.testdpc.policy.locktask.KioskModeActivity;
 
-import sermk.pipi.pilib.ErrorCollector;
-import sermk.pipi.pilib.MClient;
 import sermk.pipi.pilib.PassGeneration;
 
 /**
@@ -56,6 +54,7 @@ import sermk.pipi.pilib.PassGeneration;
  */
 public class LaunchActivity extends Activity implements View.OnKeyListener {
     private static final int REQUEST_CODE_SYNC_AUTH = 1;
+    private static final String KIOSK_INTENT = "kiosk";
 
     private final String TAG = this.getClass().getName();
     private final String COUNT_FIELD = "start_count";
@@ -128,8 +127,14 @@ public class LaunchActivity extends Activity implements View.OnKeyListener {
             return;
         }
 */
-        startKioskMode();
-/*
+        final boolean kiosk = this.getIntent().
+                getBooleanExtra(KIOSK_INTENT, true);
+
+        if(kiosk) {
+            startKioskMode();
+            return;
+        }
+
         if (ProvisioningStateUtil.isManaged(this)
                 && !ProvisioningStateUtil.isManagedByTestDPC(this)) {
             // Device or profile owner is a different app to TestDPC - abort.
@@ -153,7 +158,6 @@ public class LaunchActivity extends Activity implements View.OnKeyListener {
             Intent intent = new Intent(this, PolicyManagementActivity.class);
             startActivity(intent);
             finish();
-        }*/
     }
 
     private void startKioskMode() {
@@ -167,7 +171,7 @@ public class LaunchActivity extends Activity implements View.OnKeyListener {
 
         // start locked activity
         final String[] lockTaskArray = new String[1];
-        lockTaskArray[0] = DPCSettings.getSettings(this).LAUNCHER_APP;
+        lockTaskArray[0] = DPCSettings.getSettings(this).START_PACKAGE_NAME;
 
         Intent launchIntent = new Intent(this, KioskModeActivity.class);
         launchIntent.putExtra(KioskModeActivity.LOCKED_APP_PACKAGE_LIST, lockTaskArray);
