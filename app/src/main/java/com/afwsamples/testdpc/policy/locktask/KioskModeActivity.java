@@ -128,6 +128,7 @@ public class KioskModeActivity extends Activity {
         mKioskPackages.remove(getPackageName());
 
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT);
+        setContentView(R.layout.kiosk_activity);
     }
 
     @Override
