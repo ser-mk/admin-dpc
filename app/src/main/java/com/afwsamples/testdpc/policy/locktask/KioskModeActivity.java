@@ -133,6 +133,9 @@ public class KioskModeActivity extends Activity {
     protected void onStart() {
         super.onStart();
 
+        if (BuildConfig.DEBUG)
+            return;
+
         // start lock task mode if it's not already active
         ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         // ActivityManager.getLockTaskModeState api is not available in pre-M.
