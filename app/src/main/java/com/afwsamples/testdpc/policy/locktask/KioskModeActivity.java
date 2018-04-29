@@ -17,7 +17,6 @@
 package com.afwsamples.testdpc.policy.locktask;
 
 import static android.os.UserManager.DISALLOW_ADD_USER;
-import static android.os.UserManager.DISALLOW_ADJUST_VOLUME;
 import static android.os.UserManager.DISALLOW_FACTORY_RESET;
 import static android.os.UserManager.DISALLOW_MOUNT_PHYSICAL_MEDIA;
 import static android.os.UserManager.DISALLOW_SAFE_BOOT;
@@ -37,7 +36,6 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.os.BuildCompat;
-import android.util.ArrayMap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,7 +43,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -116,6 +113,7 @@ public class KioskModeActivity extends Activity {
             mKioskPackages.add(getPackageName());
 
             setDefaultKioskPolicies(true);
+
         } else {
             // after a reboot there is no need to set the policies again
             SharedPreferences sharedPreferences = getSharedPreferences(KIOSK_PREFERENCE_FILE,
@@ -186,13 +184,13 @@ public class KioskModeActivity extends Activity {
         if (!BuildConfig.DEBUG){
             RestrictionForSystem.setUserRestriction(this);
         }
-        RestrictionsForPackage.init(this);
+        //RestrictionsForPackage.init(this);
     }
 
     private void setDefaultKioskPolicies(boolean active) {
         // restore or save previous configuration
         if (active) {
-            saveCurrentConfiguration();
+            //saveCurrentConfiguration();
             setCustomRestriction();
         } else {
             restorePreviousConfiguration();
