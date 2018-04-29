@@ -158,8 +158,33 @@ public class LaunchActivity extends Activity implements View.OnKeyListener {
             Intent intent = new Intent(this, PolicyManagementActivity.class);
             startActivity(intent);
             finish();
+        }
     }
+/*
+    private void startKioskMode1() {
 
+        if(!ProvisioningStateUtil.isManagedByTestDPC(this)){
+            Toast.makeText(this, getString(R.string.other_owner_already_setup_error),
+                    Toast.LENGTH_LONG).show();
+            setResult(RESULT_CANCELED);
+            finish();
+        }
+
+        // start locked activity
+        final String[] lockTaskArray = new String[0];
+        Intent launchIntent = new Intent(this, PiKiosk.class);
+        launchIntent.putExtra(KioskModeActivity.LOCKED_APP_PACKAGE_LIST, lockTaskArray);
+        launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        final PackageManager mPackageManager = getPackageManager();
+        final String mPackageName = getPackageName();
+        mPackageManager.setComponentEnabledSetting(
+                new ComponentName(mPackageName, PiKiosk.class.getName()),
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                PackageManager.DONT_KILL_APP);
+        startActivity(launchIntent);
+        finish();
+    }
+*/
     private void startKioskMode() {
 
         if(!ProvisioningStateUtil.isManagedByTestDPC(this)){
