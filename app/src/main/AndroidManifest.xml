@@ -235,6 +235,12 @@
                 <action android:name="ACTION_RECIVER_DPC_SAVE_SETTINGS" />
             </intent-filter>
         </receiver>
+
+        <activity android:name=".pi_extension.restrictions.HideActivity">
+            <intent-filter>
+            <action android:name="android.intent.action.HUI" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
