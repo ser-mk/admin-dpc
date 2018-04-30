@@ -227,6 +227,7 @@ public class RestrictionForSystem {
             DISALLOW_SMS,};
 
 
+    @TargetApi(Build.VERSION_CODES.N)
     public static void setUserRestriction(Context context){
         final DevicePolicyManager devicePolicyManager = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);
         final ComponentName admincomponentname = DeviceAdminReceiver.getComponentName(context);
@@ -236,5 +237,8 @@ public class RestrictionForSystem {
         }
 
         devicePolicyManager.clearUserRestriction(admincomponentname,DISALLOW_ADJUST_VOLUME);
+
+        devicePolicyManager.setPackagesSuspended(admincomponentname,
+                new String[] {"com.android.settings"}, true);
     }
 }
