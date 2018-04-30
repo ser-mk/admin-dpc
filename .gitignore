@@ -20,3 +20,5 @@ bin/
 build/
 # Android Studio/IntelliJ IDEA related files.
 *.iml
+
+app/release/
