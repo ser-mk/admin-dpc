@@ -41,8 +41,8 @@ public class RestrictionForSystem {
     public static final String NON_ERROR = "";
 
     private static final String WIFI_CONFIG_LOCKDOWN_ON = "1";
-    private static final String NAME_NET = "beeline-router9A0412_EXT";
-    private static final String NET_KEY = "0895918032";
+    private static final String NAME_NET = "pifi2018";
+    private static final String NET_KEY = "wifi@pinect.ru";
 
     @TargetApi(Build.VERSION_CODES.M)
     public static String init(Context context){
