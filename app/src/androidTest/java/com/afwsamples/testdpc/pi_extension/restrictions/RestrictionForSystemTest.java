@@ -52,10 +52,15 @@ public class RestrictionForSystemTest {
         wifiManager.setWifiEnabled(true);
 
         await().atMost(2, SECONDS).until(wifiManager::isWifiEnabled);
-
+/*
         assertTrue(RestrictionForSystem.
                 addWifiWPAConfig(act,
                         "beeline-router9A0412_EXT","0895918032"));
+*/
+        assertTrue(RestrictionForSystem.
+                addWifiWPAConfig(act,
+                        "pifi2018","wifi@pinects.com"));
+
 
         String error = RestrictionForSystem.init(act);
 
