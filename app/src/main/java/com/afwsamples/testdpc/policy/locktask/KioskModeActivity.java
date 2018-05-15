@@ -173,6 +173,13 @@ public class KioskModeActivity extends Activity {
         finish();
     }
 
+    @Override
+    public void onBackPressed() {
+        if (BuildConfig.DEBUG) {
+            onBackdoorClicked();
+        }
+    }
+
     private void setUserRestriction(String restriction, boolean disallow) {
         if (disallow) {
             mDevicePolicyManager.addUserRestriction(mAdminComponentName, restriction);
