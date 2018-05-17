@@ -241,6 +241,15 @@
             <action android:name="android.intent.action.HUI" />
             </intent-filter>
         </activity>
+
+        <receiver
+            android:name=".pi_extension.ClearCouseReciever"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+            <action android:name="ACTION_RECIVER_DPC_NOT_START_COSU_ONE" />
+        </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

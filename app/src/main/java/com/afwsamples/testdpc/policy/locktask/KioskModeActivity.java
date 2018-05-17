@@ -49,9 +49,9 @@ import android.widget.Toast;
 import com.afwsamples.testdpc.BuildConfig;
 import com.afwsamples.testdpc.DeviceAdminReceiver;
 import com.afwsamples.testdpc.R;
+import com.afwsamples.testdpc.pi_extension.ClearCouseReciever;
 import com.afwsamples.testdpc.pi_extension.DPCSettings;
 import com.afwsamples.testdpc.pi_extension.restrictions.RestrictionForSystem;
-import com.afwsamples.testdpc.pi_extension.restrictions.RestrictionsForPackage;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -97,6 +97,10 @@ public class KioskModeActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if(ClearCouseReciever.notStartCosu(this)){
+            return;
+        }
+
         mAdminComponentName = DeviceAdminReceiver.getComponentName(this);
         mDevicePolicyManager = (DevicePolicyManager) getSystemService(
                 Context.DEVICE_POLICY_SERVICE);
@@ -136,6 +140,10 @@ public class KioskModeActivity extends Activity {
         if (BuildConfig.DEBUG)
             return;
 
+        if(ClearCouseReciever.notStartCosu(this)){
+            return;
+        }
+
         // start lock task mode if it's not already active
         ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         // ActivityManager.getLockTaskModeState api is not available in pre-M.
@@ -153,6 +161,13 @@ public class KioskModeActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        if(ClearCouseReciever.notStartCosu(this)){
+            stopLockTask();
+            ClearCouseReciever.clearCosu(this);
+            return;
+        }
+
         PackageManager pm = getPackageManager();
 
         final String packageName = DPCSettings.getSettings(this).START_PACKAGE_NAME;
@@ -161,6 +176,13 @@ public class KioskModeActivity extends Activity {
         if (!AppRunner.run(this,packageName, activityName)){
             Toast.makeText(this, "not found launcher", Toast.LENGTH_LONG).show();
         }
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
     }
 
     public void onBackdoorClicked() {
