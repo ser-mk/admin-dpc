@@ -57,7 +57,7 @@ public class UserRestrictionsDisplayFragment extends BaseSearchablePolicyPrefere
         mUserManager = (UserManager) getActivity().getSystemService(Context.USER_SERVICE);
         mAdminComponentName = DeviceAdminReceiver.getComponentName(getActivity());
         super.onCreate(savedInstanceState);
-        getActivity().getActionBar().setTitle(R.string.user_restrictions_management_title);
+        //getActivity().getActionBar().setTitle(R.string.user_restrictions_management_title);
     }
 
     @Override

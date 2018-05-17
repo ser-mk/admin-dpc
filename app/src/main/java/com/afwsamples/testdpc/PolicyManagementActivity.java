@@ -72,8 +72,7 @@ public class PolicyManagementActivity extends Activity implements
     @Override
     public void onBackStackChanged() {
         // Show the up button in actionbar if back stack has any entry.
-        getActionBar().setDisplayHomeAsUpEnabled(
-                getFragmentManager().getBackStackEntryCount() > 0);
+        //getActionBar().setDisplayHomeAsUpEnabled(getFragmentManager().getBackStackEntryCount() > 0);
     }
 
     @Override
