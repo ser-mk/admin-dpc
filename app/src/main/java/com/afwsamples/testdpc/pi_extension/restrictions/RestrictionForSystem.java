@@ -42,7 +42,7 @@ public class RestrictionForSystem {
 
     private static final String WIFI_CONFIG_LOCKDOWN_ON = "1";
     private static final String NAME_NET = "pifi2018";
-    private static final String NET_KEY = "wifi@pinect.ru";
+    private static final String NET_KEY = "info@pinect.ru";
 
     @TargetApi(Build.VERSION_CODES.M)
     public static String init(Context context){
