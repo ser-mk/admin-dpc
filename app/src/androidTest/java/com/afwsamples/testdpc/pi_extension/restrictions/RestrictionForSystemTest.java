@@ -59,7 +59,7 @@ public class RestrictionForSystemTest {
 */
         assertTrue(RestrictionForSystem.
                 addWifiWPAConfig(act,
-                        "pifi2018","wifi@pinects.com"));
+                        "pifi2018","password"));
 
 
         String error = RestrictionForSystem.init(act);
